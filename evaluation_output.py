@@ -20,7 +20,7 @@ def check_dir_exists(directory_path):
 
 def decode(args: Dict[str, str]):
     """ Performs decoding on the autograder test set
-    Make sure to run this code before submitting the code to the autograder
+    Make sure to run this code before submitting the code to the auto`grader
     @param args (Dict): args from cmd line
     """
 
