@@ -17,7 +17,7 @@ Install necessary packages (On your VM)
 pip install -r gpu_requirements.txt
 ```
 
-Generate the required vocab files (Exce
+Generate the required vocab files
 ```bash
 sh run.sh vocab
 ```
