@@ -1,4 +1,4 @@
-# NMT Assignment
+# Assignment 4 (NMT)
 Note: Heavily inspired by the https://github.com/pcyin/pytorch_nmt repository
 
 Create virtual environment
@@ -17,7 +17,7 @@ Install necessary packages (On your VM)
 pip install -r gpu_requirements.txt
 ```
 
-Generate the required vocab files (Exce
+Generate the required vocab files
 ```bash
 sh run.sh vocab
 ```
