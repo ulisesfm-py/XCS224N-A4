@@ -27,7 +27,7 @@ class NMT(nn.Module):
         @param embed_size (int): Embedding size (dimensionality)
         @param hidden_size (int): Hidden Size (dimensionality)
         @param vocab (Vocab): Vocabulary object containing src and tgt languages
-                              See vocab.py for documentation.
+                              See vocab.py for  documentation.
         @param dropout_rate (float): Dropout probability, for attention
         """
         super(NMT, self).__init__()
@@ -284,7 +284,7 @@ class NMT(nn.Module):
 
         # Set e_t to -inf where enc_masks has 1
         if enc_masks is not None:
-            e_t.data.masked_fill_(enc_masks.byte(), -float('inf'))
+            e_t.data.masked_fill_(enc_masks.bool(), -float('inf'))
 
         ### YOUR CODE HERE (~6 Lines)
         ### TODO:
@@ -298,7 +298,7 @@ class NMT(nn.Module):
         ###           - You will need to do some squeezing and unsqueezing.
         ###     Note: b = batch size, src_len = maximum source length, h = hidden size.
         ###
-        ###     3. Concatenate dec_hidden with a_t to compute tensor U_t
+        ###     3. Concatenate a_t with dec_hidden compute tensor U_t
         ###     4. Apply the combined output projection layer to U_t to compute tensor V_t
         ###     5. Compute tensor O_t by first applying the Tanh function and then the dropout layer.
         ###
