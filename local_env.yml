@@ -8,6 +8,6 @@ dependencies:
   - scipy
   - tqdm
   - docopt
-  - pytorch=1.0.0
+  - pytorch
   - nltk
   - torchvision
