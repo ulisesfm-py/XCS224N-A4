@@ -298,7 +298,7 @@ class NMT(nn.Module):
         ###           - You will need to do some squeezing and unsqueezing.
         ###     Note: b = batch size, src_len = maximum source length, h = hidden size.
         ###
-        ###     3. Concatenate a_t with dec_hidden compute tensor U_t
+        ###     3. Concatenate dec_hidden with a_t to compute tensor U_t
         ###     4. Apply the combined output projection layer to U_t to compute tensor V_t
         ###     5. Compute tensor O_t by first applying the Tanh function and then the dropout layer.
         ###
