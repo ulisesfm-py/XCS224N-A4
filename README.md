@@ -27,4 +27,8 @@ Train model on your local machine
 sh run.sh train_local
 ```
 
-
+When submitting, you can run
+```bash
+./collect_submission.sh
+```
+and submit the `assignment4.zip` to gradescope or upload all of your `.py` files, the contents of your `en_es_data` folder, the contents of your `sanity_check_en_es_data` folder, and the contents of your `outputs` folder.
