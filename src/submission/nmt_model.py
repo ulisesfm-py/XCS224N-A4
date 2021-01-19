@@ -9,7 +9,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.nn.utils
-from model_embeddings import ModelEmbeddings
+from .model_embeddings import ModelEmbeddings
+from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence
 
 Hypothesis = namedtuple('Hypothesis', ['value', 'score'])
 
@@ -27,7 +28,7 @@ class NMT(nn.Module):
         @param embed_size (int): Embedding size (dimensionality)
         @param hidden_size (int): Hidden Size (dimensionality)
         @param vocab (Vocab): Vocabulary object containing src and tgt languages
-                              See vocab.py for  documentation.
+                              See vocab.py for documentation.
         @param dropout_rate (float): Dropout probability, for attention
         """
         super(NMT, self).__init__()
@@ -46,7 +47,6 @@ class NMT(nn.Module):
         self.target_vocab_projection = None
         self.dropout = None
 
-        ### YOUR CODE HERE (~8 Lines)
         ### TODO - Initialize the following variables:
         ###     self.encoder (Bidirectional LSTM with bias)
         ###     self.decoder (LSTM Cell with bias)
@@ -66,8 +66,8 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/nn.html#torch.nn.Linear
         ###     Dropout Layer:
         ###         https://pytorch.org/docs/stable/nn.html#torch.nn.Dropout
-
-        ### END YOUR CODE
+        ### START CODE HERE (~8 Lines)
+        ### END CODE HERE
 
     def forward(self, source: List[List[str]], target: List[List[str]]) -> torch.Tensor:
         """ Take a mini-batch of source and target sentences, compute the log-likelihood of
@@ -124,7 +124,6 @@ class NMT(nn.Module):
         """
         enc_hiddens, dec_init_state = None, None
 
-        ### YOUR CODE HERE (~ 8 Lines)
         ### TODO:
         ###     1. Construct Tensor `X` of source sentences with shape (src_len, b, e) using the source model embeddings.
         ###         src_len = maximum source sentence length, b = batch size, e = embedding size. Note
@@ -155,8 +154,8 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/torch.html#torch.cat
         ###     Tensor Permute:
         ###         https://pytorch.org/docs/stable/tensors.html#torch.Tensor.permute
-
-        ### END YOUR CODE
+        ### START CODE HERE (~ 8 Lines)
+        ### END CODE HERE
 
         return enc_hiddens, dec_init_state
 
@@ -188,7 +187,6 @@ class NMT(nn.Module):
         # Initialize a list we will use to collect the combined output o_t on each step
         combined_outputs = []
 
-        ### YOUR CODE HERE (~9 Lines)
         ### TODO:
         ###     1. Apply the attention projection layer to `enc_hiddens` to obtain `enc_hiddens_proj`,
         ###         which should be shape (b, src_len, h),
@@ -223,8 +221,8 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/torch.html#torch.cat
         ###     Tensor Stacking:
         ###         https://pytorch.org/docs/stable/torch.html#torch.stack
-
-        ### END YOUR CODE
+        ### START CODE HERE (~9 Lines)
+        ### END CODE HERE
 
         return combined_outputs
 
@@ -257,7 +255,6 @@ class NMT(nn.Module):
 
         combined_output = None
 
-        ### YOUR CODE HERE (~3 Lines)
         ### TODO:
         ###     1. Apply the decoder to `Ybar_t` and `dec_state`to obtain the new dec_state.
         ###     2. Split dec_state into its two parts (dec_hidden, dec_cell)
@@ -279,14 +276,13 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/torch.html#torch.unsqueeze
         ###     Tensor Squeeze:
         ###         https://pytorch.org/docs/stable/torch.html#torch.squeeze
-
-        ### END YOUR CODE
+        ### START CODE HERE (~3 Lines)
+        ### END CODE HERE
 
         # Set e_t to -inf where enc_masks has 1
         if enc_masks is not None:
             e_t.data.masked_fill_(enc_masks.bool(), -float('inf'))
 
-        ### YOUR CODE HERE (~6 Lines)
         ### TODO:
         ###     1. Apply softmax to e_t to yield alpha_t
         ###     2. Use batched matrix multiplication between alpha_t and enc_hiddens to obtain the
@@ -313,8 +309,8 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/torch.html#torch.cat
         ###     Tanh:
         ###         https://pytorch.org/docs/stable/torch.html#torch.tanh
-
-        ### END YOUR CODE
+        ### START CODE HERE (~6 Lines)
+        ### END CODE HERE
 
         combined_output = O_t
         return dec_state, combined_output, e_t
@@ -386,7 +382,7 @@ class NMT(nn.Module):
             contiuating_hyp_scores = (hyp_scores.unsqueeze(1).expand_as(log_p_t) + log_p_t).view(-1)
             top_cand_hyp_scores, top_cand_hyp_pos = torch.topk(contiuating_hyp_scores, k=live_hyp_num)
 
-            prev_hyp_ids = top_cand_hyp_pos // len(self.vocab.tgt)
+            prev_hyp_ids = top_cand_hyp_pos / len(self.vocab.tgt)
             hyp_word_ids = top_cand_hyp_pos % len(self.vocab.tgt)
 
             new_hypotheses = []

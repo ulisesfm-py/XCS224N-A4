@@ -20,7 +20,7 @@ from typing import List
 
 import torch
 from docopt import docopt
-from utils import read_corpus, pad_sents
+from submission import read_corpus, pad_sents
 
 
 class VocabEntry(object):

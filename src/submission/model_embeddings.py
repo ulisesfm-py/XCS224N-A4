@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 import torch.nn as nn
 
 
@@ -27,7 +28,6 @@ class ModelEmbeddings(nn.Module):
         src_pad_token_idx = vocab.src['<pad>']
         tgt_pad_token_idx = vocab.tgt['<pad>']
 
-        ### YOUR CODE HERE (~2 Lines)
         ### TODO - Initialize the following variables:
         ###     self.source (Embedding Layer for source language)
         ###     self.target (Embedding Layer for target langauge)
@@ -44,5 +44,5 @@ class ModelEmbeddings(nn.Module):
         ### Use the following docs to properly initialize these variables:
         ###     Embedding Layer:
         ###         https://pytorch.org/docs/stable/nn.html#torch.nn.Embedding
-
-        ### END YOUR CODE
+        ### START CODE HERE (~2 Lines)
+        ### END CODE HERE

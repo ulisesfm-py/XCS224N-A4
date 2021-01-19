@@ -16,7 +16,7 @@ Options:
     --dev-tgt=<file>                        dev target file
     --vocab=<file>                          vocab file
     --seed=<int>                            seed [default: 0]
-    --batch-size=<int>                      batch size [default: 32]
+    --batch-size=<int>                      batch size [default: 16]
     --embed-size=<int>                      embedding size [default: 256]
     --hidden-size=<int>                     hidden size [default: 256]
     --clip-grad=<float>                     gradient clipping [default: 5.0]
@@ -30,8 +30,8 @@ Options:
     --sample-size=<int>                     sample size [default: 5]
     --lr=<float>                            learning rate [default: 0.001]
     --uniform-init=<float>                  uniformly initialize all parameters [default: 0.1]
-    --save-to=<file>                        model save path [default: model.bin]
-    --valid-niter=<int>                     perform validation after how many iterations [default: 2000]
+    --save-to=<file>                        model save path [default: model_(soln).bin]
+    --valid-niter=<int>                     perform validation after how many iterations [default: 500]
     --dropout=<float>                       dropout [default: 0.3]
     --max-decoding-time-step=<int>          maximum number of decoding time steps [default: 70]
 """
@@ -45,9 +45,9 @@ import torch
 import torch.nn.utils
 from docopt import docopt
 from nltk.translate.bleu_score import corpus_bleu
-from nmt_model import Hypothesis, NMT
+from submission import Hypothesis, NMT
 from tqdm import tqdm
-from utils import read_corpus, batch_iter
+from submission import read_corpus, batch_iter
 from vocab import Vocab
 
 
@@ -183,7 +183,7 @@ def train(args: Dict):
                                                                                              report_loss / report_tgt_words),
                                                                                          cum_examples,
                                                                                          report_tgt_words / (
-                                                                                                     time.time() - train_time),
+                                                                                                 time.time() - train_time),
                                                                                          time.time() - begin_time),
                       file=sys.stderr)
 
@@ -205,7 +205,7 @@ def train(args: Dict):
                 print('begin validation ...', file=sys.stderr)
 
                 # compute dev. ppl and bleu
-                dev_ppl = evaluate_ppl(model, dev_data, batch_size=128)  # dev batch size can be a bit larger
+                dev_ppl = evaluate_ppl(model, dev_data, batch_size=8)  # dev batch size can be a bit larger
                 valid_metric = -dev_ppl
 
                 print('validation: iter %d, dev. ppl %f' % (train_iter, dev_ppl), file=sys.stderr)
@@ -322,7 +322,7 @@ def main():
 
     # Check pytorch version
     assert (
-                torch.__version__ >= "1.0.0"), "Please update your installation of PyTorch. You have {} and you should have version 1.0.0 or above".format(
+            torch.__version__ >= "1.0.0"), "Please update your installation of PyTorch. You have {} and you should have version 1.0.0 or above".format(
         torch.__version__)
 
     # seed the random number generators

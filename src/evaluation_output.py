@@ -2,10 +2,8 @@ import os
 from typing import Dict
 
 import torch
-from nmt_model import NMT
+from submission import NMT, read_corpus
 from run import beam_search
-from utils import read_corpus
-
 
 def check_dir_exists(directory_path):
     """
@@ -20,7 +18,7 @@ def check_dir_exists(directory_path):
 
 def decode(args: Dict[str, str]):
     """ Performs decoding on the autograder test set
-    Make sure to run this code before submitting the code to the auto`grader
+    Make sure to run this code before submitting the code to the autograder
     @param args (Dict): args from cmd line
     """
 
@@ -44,9 +42,9 @@ def decode(args: Dict[str, str]):
 def main():
     args = {
         'SOURCE_FILE': './en_es_data/grader.es',
-        'OUTPUT_FILE': './outputs/gradescope_test_outputs.txt',
-        'MODEL_PATH': './model.bin',
-        'CUDA': True,
+        'OUTPUT_FILE': './submission/gradescope_test_outputs_(soln).txt',
+        'MODEL_PATH': './model_(soln).bin',
+        'CUDA': False,
         'MAX_DECODING_TIME_STEP': 70,
         'BEAM_SIZE': 5
     }
