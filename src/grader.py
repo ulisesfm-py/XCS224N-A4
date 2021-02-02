@@ -50,32 +50,6 @@ def reinitialize_layers(model):
     with torch.no_grad():
         model.apply(init_weights)
 
-# def generate_outputs(model, source, target, vocab):
-#     """ Generate outputs.
-#     """
-#     print("-" * 80)
-#     print("Generating Comparison Outputs")
-#     reinitialize_layers(model)
-
-#     # Compute sentence lengths
-#     source_lengths = [len(s) for s in source]
-
-#     # Convert list of lists into tensors
-#     source_padded = model.vocab.src.to_input_tensor(source, device=model.device)
-#     target_padded = model.vocab.tgt.to_input_tensor(target, device=model.device)
-
-#     # Run the model forward
-#     with torch.no_grad():
-#         enc_hiddens, dec_init_state = model.encode(source_padded, source_lengths)
-#         enc_masks = model.generate_sent_masks(enc_hiddens, source_lengths)
-#         combined_outputs = model.decode(enc_hiddens, enc_masks, dec_init_state, target_padded)
-
-#     # Save Tensors to disk
-#     torch.save(enc_hiddens, './sanity_check_en_es_data/enc_hiddens.pkl')
-#     torch.save(dec_init_state, './sanity_check_en_es_data/dec_init_state.pkl')
-#     torch.save(enc_masks, './sanity_check_en_es_data/enc_masks.pkl')
-#     torch.save(combined_outputs, './sanity_check_en_es_data/combined_outputs.pkl')
-
 class DummyVocab():
   def __init__(self):
     self.src = {'<pad>': 1, "one": 1, "two": 2}  #len = 3
