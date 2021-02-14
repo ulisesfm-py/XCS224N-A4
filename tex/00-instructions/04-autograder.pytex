@@ -29,12 +29,12 @@ $ python grader.py
 There are two types of unit tests used by the autograder:
 \begin{itemize}
   \item |basic|:  These unit tests will verify only that your code runs without
-  errors on obvious test cases.  These tests so not require the instructor solution code and can therefore be run on your local computer.
+  errors on obvious test cases.  These tests do not require the instructor solution code and can therefore be run on your local computer.
   \item |hidden|: These unit tests will verify that your code produces correct
   results on complex inputs and tricky corner cases.  Since these tests require
   the instructor solution code to verify results, only the setup and inputs are provided.
   When you run the autograder locally, these test cases will run, but the
-  results will not be verified by the autograder.  When your run the autograder
+  results will not be verified by the autograder.  When you run the autograder
   online, these tests will run and you will receive feedback on any errors that might occur.
 \end{itemize}
 
