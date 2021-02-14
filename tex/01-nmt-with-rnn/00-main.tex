@@ -43,7 +43,7 @@ We then use $\hdec_t$ to compute  multiplicative attention over $\henc_0, \dots,
 We now concatenate the attention output $\ba_t$ with the decoder hidden state $\hdec_t$ and pass this through a linear layer, Tanh, and Dropout to attain the \textit{combined-output} vector $\bo_{t}$.
 
 \begin{align}   
-    \bu_{t} = [\ba_{t}; \hdec_t] \enspace &\text{where} \enspace \bu_t \in  \Real^{3h \times 1} \\
+    \bu_{t} = [\ba_{t}; \hdec_t ] \enspace &\text{where} \enspace \bu_t \in \Real^{3h \times 1} \\
     \bv_t = \bW_{u}\bu_t \enspace &\text{where} \enspace \bv_t \in \Real^{h \times 1}, \bW_{u} \in \Real^{h \times 3h}\\
     \bo_t = \text{Dropout}(\text{Tanh}(\bv_t)) \enspace &\text{where} \enspace \bo_t \in \Real^{h \times 1}
 \end{align}
