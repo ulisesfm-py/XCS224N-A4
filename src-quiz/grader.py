@@ -24,7 +24,7 @@ class Test_1(GradedTestCase):
   @graded(is_hidden=True, after_published=False, hide_errors=True)
   def test_1(self):
     """quiz1-1-hidden:  Multiple choice response."""
-    self.compare_with_solution_or_wait(submission, 'multiple_choice_1', lambda f: set(f()))
+    self.compare_with_solution_or_wait(submission, 'multiple_choice_1', lambda f: set([choice.lower() for choice in f()]))
 
 class Test_2(GradedTestCase):
   @graded()
@@ -37,7 +37,7 @@ class Test_2(GradedTestCase):
   @graded(is_hidden=True, after_published=False, hide_errors=True)
   def test_1(self):
     """quiz2-1-hidden:  Multiple choice response."""
-    self.compare_with_solution_or_wait(submission, 'multiple_choice_2', lambda f: set(f()))
+    self.compare_with_solution_or_wait(submission, 'multiple_choice_2', lambda f: set([choice.lower() for choice in f()]))
 
 class Test_3a(GradedTestCase):
   @graded()
@@ -50,7 +50,7 @@ class Test_3a(GradedTestCase):
   @graded(is_hidden=True, after_published=False, hide_errors=True)
   def test_1(self):
     """quiz3a-1-hidden:  Multiple choice response."""
-    self.compare_with_solution_or_wait(submission, 'multiple_choice_3a', lambda f: set(f()))
+    self.compare_with_solution_or_wait(submission, 'multiple_choice_3a', lambda f: set([choice.lower() for choice in f()]))
 
 class Test_3b(GradedTestCase):
   @graded()
@@ -63,7 +63,7 @@ class Test_3b(GradedTestCase):
   @graded(is_hidden=True, after_published=False, hide_errors=True)
   def test_1(self):
     """quiz3b-1-hidden:  Multiple choice response."""
-    self.compare_with_solution_or_wait(submission, 'multiple_choice_3b', lambda f: set(f()))
+    self.compare_with_solution_or_wait(submission, 'multiple_choice_3b', lambda f: set([choice.lower() for choice in f()]))
 
 class Test_4a(GradedTestCase):
   @graded()
@@ -76,7 +76,7 @@ class Test_4a(GradedTestCase):
   @graded(is_hidden=True, after_published=False, hide_errors=True)
   def test_1(self):
     """quiz4a-1-hidden:  Multiple choice response."""
-    self.compare_with_solution_or_wait(submission, 'multiple_choice_4a', lambda f: set(f()))
+    self.compare_with_solution_or_wait(submission, 'multiple_choice_4a', lambda f: set([choice.lower() for choice in f()]))
 
 class Test_4b(GradedTestCase):
   @graded()
@@ -89,7 +89,7 @@ class Test_4b(GradedTestCase):
   @graded(is_hidden=True, after_published=False, hide_errors=True)
   def test_1(self):
     """quiz4b-1-hidden:  Multiple choice response."""
-    self.compare_with_solution_or_wait(submission, 'multiple_choice_4b', lambda f: set(f()))
+    self.compare_with_solution_or_wait(submission, 'multiple_choice_4b', lambda f: set([choice.lower() for choice in f()]))
 
 class Test_4c(GradedTestCase):
   @graded()
@@ -102,7 +102,7 @@ class Test_4c(GradedTestCase):
   @graded(is_hidden=True, after_published=False, hide_errors=True)
   def test_1(self):
     """quiz4c-1-hidden:  Multiple choice response."""
-    self.compare_with_solution_or_wait(submission, 'multiple_choice_4c', lambda f: set(f()))
+    self.compare_with_solution_or_wait(submission, 'multiple_choice_4c', lambda f: set([choice.lower() for choice in f()]))
 
 class Test_5a(GradedTestCase):
   @graded()
@@ -115,7 +115,7 @@ class Test_5a(GradedTestCase):
   @graded(is_hidden=True, after_published=False, hide_errors=True)
   def test_1(self):
     """quiz5a-1-hidden:  Multiple choice response."""
-    self.compare_with_solution_or_wait(submission, 'multiple_choice_5a', lambda f: set(f()))
+    self.compare_with_solution_or_wait(submission, 'multiple_choice_5a', lambda f: set([choice.lower() for choice in f()]))
 
 class Test_5b(GradedTestCase):
   @graded()
@@ -128,7 +128,7 @@ class Test_5b(GradedTestCase):
   @graded(is_hidden=True, after_published=False, hide_errors=True)
   def test_1(self):
     """quiz5b-1-hidden:  Multiple choice response."""
-    self.compare_with_solution_or_wait(submission, 'multiple_choice_5b', lambda f: set(f()))
+    self.compare_with_solution_or_wait(submission, 'multiple_choice_5b', lambda f: set([choice.lower() for choice in f()]))
 
 class Test_5c(GradedTestCase):
   @graded()
@@ -141,7 +141,7 @@ class Test_5c(GradedTestCase):
   @graded(is_hidden=True, after_published=False, hide_errors=True)
   def test_1(self):
     """quiz5c-1-hidden:  Multiple choice response."""
-    self.compare_with_solution_or_wait(submission, 'multiple_choice_5c', lambda f: set(f()))
+    self.compare_with_solution_or_wait(submission, 'multiple_choice_5c', lambda f: set([choice.lower() for choice in f()]))
 
 def getTestCaseForTestID(test_id):
   question, part, _ = test_id.split('-')
