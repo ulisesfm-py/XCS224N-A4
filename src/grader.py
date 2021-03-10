@@ -119,7 +119,7 @@ def test_combined_outputs(source_padded, source_lengths, target_padded, stu_mode
               combined_output = True
   return combined_output
 
-def test_q1f(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks, stu_model, soln_model, alt_soln_nmt):
+def test_q1f(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks, stu_model, soln_model):
     """ Test for Question 1F
         Compares student output to that of model with dummy data.
     """
@@ -130,7 +130,7 @@ def test_q1f(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks, s
     with torch.no_grad():
             dec_state_student, o_t_student, e_t_student =  stu_model.step(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks)            
             dec_state, o_t, e_t =  soln_model.step(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks)
-            dec_state_alt, o_t_alt, e_t_alt = alt_soln_nmt.step(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks)
+            #dec_state_alt, o_t_alt, e_t_alt = alt_soln_nmt.step(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks)
 
             if np.allclose(dec_state_student[0].numpy(), dec_state[0].numpy(), atol=1e-4):
                 dec_hidden_result = True
@@ -138,7 +138,9 @@ def test_q1f(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks, s
             if np.allclose(dec_state_student[1].numpy(), dec_state[1].numpy(), atol=1e-4):
                 dec_state_result = True
 
-            if np.allclose(o_t_student.numpy(), o_t.numpy(), atol=1e-4) or np.allclose(o_t_student.numpy(), o_t_alt.numpy(), atol=1e-4):
+            if np.allclose(o_t_student.numpy(), o_t.numpy(), atol=1e-4): #or np.allclose(o_t_student.numpy(), o_t_alt.numpy(), atol=1e-4):
+                # print("o_t_student_numpy: ", o_t_student.numpy())
+                # print("o_t_sol_numpy: ", o_t.numpy())
                 o_t_result = True
 
             if np.allclose(e_t_student.numpy(), e_t.numpy(), atol=1e-4):
@@ -518,22 +520,22 @@ class Test_1f(GradedTestCase):
     )
 
     # Initialize alternative soln model (change concat order in step function)
-    random.seed(35436)
-    np.random.seed(4355)
-    torch.manual_seed(42)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed(42)
-    self.alt_soln_model = self.run_with_solution_if_possible(submission, lambda sub_or_sol:sub_or_sol).NMT_alt(
-        embed_size = LARGE_EMBED_SIZE,
-        hidden_size = LARGE_HIDDEN_SIZE,
-        dropout_rate = NONZERO_DROPOUT_RATE,
-        vocab = self.vocab
-    )
+    # random.seed(35436)
+    # np.random.seed(4355)
+    # torch.manual_seed(42)
+    # if torch.cuda.is_available():
+    #     torch.cuda.manual_seed(42)
+    # self.alt_soln_model = self.run_with_solution_if_possible(submission, lambda sub_or_sol:sub_or_sol).NMT_alt(
+    #     embed_size = LARGE_EMBED_SIZE,
+    #     hidden_size = LARGE_HIDDEN_SIZE,
+    #     dropout_rate = NONZERO_DROPOUT_RATE,
+    #     vocab = self.vocab
+    # )
 
     # To prevent dropout
     self.model.train(False)
     self.soln_model.train(False)
-    self.alt_soln_model.train(False)
+    # self.alt_soln_model.train(False)
 
     # Generate Inputs
     random.seed(35436)
@@ -547,7 +549,7 @@ class Test_1f(GradedTestCase):
     enc_masks = (torch.randn(LARGE_BATCH_SIZE, 20, dtype=torch.float) >= 0.5)
     
     self.dec_hidden_result, self.dec_state_result, self.o_t_result, self.e_t_result = \
-        test_q1f(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks, self.model, self.soln_model, self.alt_soln_model)
+        test_q1f(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks, self.model, self.soln_model)
 
   @graded()
   def test_0(self):
