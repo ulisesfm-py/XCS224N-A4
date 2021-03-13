@@ -9,7 +9,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.nn.utils
-from model_embeddings import ModelEmbeddings
+from .model_embeddings import ModelEmbeddings
 from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence
 
 Hypothesis = namedtuple('Hypothesis', ['value', 'score'])
