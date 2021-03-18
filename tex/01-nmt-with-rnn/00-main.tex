@@ -43,7 +43,7 @@ We then use $\hdec_t$ to compute  multiplicative attention over $\henc_0, \dots,
 We now concatenate the attention output $\ba_t$ with the decoder hidden state $\hdec_t$ and pass this through a linear layer, Tanh, and Dropout to attain the \textit{combined-output} vector $\bo_{t}$.
 
 \begin{align}   
-    \bu_{t} = [\ba_{t}; \hdec_t ] \enspace &\text{where} \enspace \bu_t \in \Real^{3h \times 1} \\
+    \bu_{t} = [\hdec_t; \ba_{t}] \enspace &\text{where} \enspace \bu_t \in \Real^{3h \times 1} \\
     \bv_t = \bW_{u}\bu_t \enspace &\text{where} \enspace \bv_t \in \Real^{h \times 1}, \bW_{u} \in \Real^{h \times 3h}\\
     \bo_t = \text{Dropout}(\text{Tanh}(\bv_t)) \enspace &\text{where} \enspace \bo_t \in \Real^{h \times 1}
 \end{align}
@@ -64,7 +64,7 @@ Here, $\theta$ represents all the parameters of the model and $J_t(\theta)$ is t
 Now that we have described the model, let's try implementing it for Spanish to English translation!
 
 \subsection*{{\color{red} Setting up your Virtual Machine}}
-Follow the instructions in the \href{https://docs.google.com/document/d/1oy4FLADpCQDYYnO37ryntPV42foOgwtycbP5PMC8a8w}{XCS224N Azure Guide} in order to create your VM instance. Though you will need the GPU to train your model, we strongly advise that you first develop the code locally and ensure that it runs, before attempting to train it on your VM. GPU time is expensive and limited. It takes approximately \textbf{4 hours} to train the NMT system. We don't want you to accidentally use all your GPU time for the assignment, debugging your model rather than training and evaluating it. Finally, \textbf{make sure that your VM is turned off whenever you are not using it.}
+Follow the instructions in the \href{https://docs.google.com/document/d/10J520Vnb1LnAMo0qgSYpG5cEEbomqQ371NIqg1IAv-4/edit?usp=sharing}{XCS224N Azure Guide} in order to create your VM instance. Though you will need the GPU to train your model, we strongly advise that you first develop the code locally and ensure that it runs, before attempting to train it on your VM. GPU time is expensive and limited. It takes approximately \textbf{4 hours} to train the NMT system. We don't want you to accidentally use all your GPU time for the assignment, debugging your model rather than training and evaluating it. Finally, \textbf{make sure that your VM is turned off whenever you are not using it.}
 
 In order to run the model code on your VM, please run the following command to create the proper virtual environment (You did this at the beginning of the course on your local computer):
 
@@ -104,7 +104,7 @@ For local development and testing, you can feel free to continue to using the sa
 \begin{lstlisting}
 (XCS224N)$ sh run.sh train_local
 \end{lstlisting}
-    Once you have ensured that your code does not crash (i.e. let it run until \texttt{iter 10} or \texttt{iter 20}), power on your VM from the Azure Web Portal. Then read the \textit{Practical Guide for Using the VM} section of the \href{https://docs.google.com/document/d/1oy4FLADpCQDYYnO37ryntPV42foOgwtycbP5PMC8a8w/edit?usp=sharing}{XCS224N Azure Guide} for instructions on how to upload your code to the VM.
+    Once you have ensured that your code does not crash (i.e. let it run until \texttt{iter 10} or \texttt{iter 20}), power on your VM from the Azure Web Portal. Then read the \textit{Practical Guide for Using the VM} section of the \href{https://docs.google.com/document/d/10J520Vnb1LnAMo0qgSYpG5cEEbomqQ371NIqg1IAv-4/edit?usp=sharing}{XCS224N Azure Guide} for instructions on how to upload your code to the VM.
     Next, turn to the \textit{Managing Processes on a VM} section of the Practical Guide and follow the instructions to create a new tmux session. Concretely, run the following command to create tmux session called \texttt{nmt}.
 \begin{lstlisting}
 (XCS224N)$ tmux new -s nmt
