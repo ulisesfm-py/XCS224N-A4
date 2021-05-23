@@ -3,6 +3,7 @@ import unittest, random, sys, copy, argparse, inspect
 from graderUtil import graded, CourseTestRunner, GradedTestCase
 import numpy as np
 import os
+import traceback
 
 # Import student submission
 import submission
@@ -128,7 +129,7 @@ def test_q1f(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks, s
 
     dec_hidden_result, dec_state_result, o_t_result, e_t_result = False, False, False, False
     with torch.no_grad():
-            dec_state_student, o_t_student, e_t_student =  stu_model.step(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks)            
+            dec_state_student, o_t_student, e_t_student =  stu_model.step(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks)
             dec_state, o_t, e_t =  soln_model.step(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks)
             #dec_state_alt, o_t_alt, e_t_alt = alt_soln_nmt.step(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks)
 
@@ -283,8 +284,8 @@ class Test_1d(GradedTestCase):
     np.random.seed(4355)
     torch.manual_seed(42)
     if torch.cuda.is_available():
-      torch.cuda.manual_seed(42)      
-    
+      torch.cuda.manual_seed(42)
+
     # Create Inputs
     input = setup()
     self.vocab = input[-1]
@@ -446,8 +447,8 @@ class Test_1e(GradedTestCase):
     np.random.seed(4355)
     torch.manual_seed(42)
     if torch.cuda.is_available():
-        torch.cuda.manual_seed(42)      
-    
+        torch.cuda.manual_seed(42)
+
     # Create Inputs
     input = setup()
     self.vocab = input[-1]
@@ -481,7 +482,7 @@ class Test_1e(GradedTestCase):
     self.target_padded = self.soln_model.vocab.tgt.to_input_tensor(input[1], device=self.soln_model.device)   # Tensor: (tgt_len, b)
 
     self.target = input[1]
-    self.combined_outputs = test_combined_outputs(self.source_padded, self.source_lengths, self.target_padded, 
+    self.combined_outputs = test_combined_outputs(self.source_padded, self.source_lengths, self.target_padded,
                                                                                   self.model, self.soln_model, self.vocab)
     self.assertTrue(self.combined_outputs)
 
@@ -492,8 +493,8 @@ class Test_1f(GradedTestCase):
     np.random.seed(4355)
     torch.manual_seed(42)
     if torch.cuda.is_available():
-        torch.cuda.manual_seed(42)      
-    
+        torch.cuda.manual_seed(42)
+
     # Create Inputs
     input = setup()
     self.vocab = input[-1]
@@ -547,7 +548,7 @@ class Test_1f(GradedTestCase):
     enc_hiddens = torch.randn(LARGE_BATCH_SIZE, 20, LARGE_HIDDEN_SIZE * 2, dtype=torch.float)
     enc_hiddens_proj = torch.randn(LARGE_BATCH_SIZE, 20, LARGE_HIDDEN_SIZE, dtype=torch.float)
     enc_masks = (torch.randn(LARGE_BATCH_SIZE, 20, dtype=torch.float) >= 0.5)
-    
+
     self.dec_hidden_result, self.dec_state_result, self.o_t_result, self.e_t_result = \
         test_q1f(Ybar_t, dec_init_state, enc_hiddens, enc_hiddens_proj, enc_masks, self.model, self.soln_model)
 
@@ -629,7 +630,7 @@ class Test_1f(GradedTestCase):
   @graded(is_hidden=True)
   def test_4(self):
     """1f-4-hidden: e_t Check"""
-    self.assertTrue(self.e_t_result)        
+    self.assertTrue(self.e_t_result)
 
 class Test_1g(GradedTestCase):
     @graded(is_hidden=True)
