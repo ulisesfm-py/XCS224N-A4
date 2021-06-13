@@ -76,8 +76,8 @@ class DummyVocab():
 
 def setup():
     # Load training data & vocabulary
-    train_data_src = submission.read_corpus('./sanity_check_en_es_data/train_sanity_check.es', 'src')
-    train_data_tgt = submission.read_corpus('./sanity_check_en_es_data/train_sanity_check.en', 'tgt')
+    train_data_src = sanity_read_corpus('./sanity_check_en_es_data/train_sanity_check.es', 'src')
+    train_data_tgt = sanity_read_corpus('./sanity_check_en_es_data/train_sanity_check.en', 'tgt')
     train_data = list(zip(train_data_src, train_data_tgt))
 
     for src_sents, tgt_sents in submission.batch_iter(train_data, batch_size=LARGE_BATCH_SIZE, shuffle=True):
@@ -421,8 +421,8 @@ class Test_1e(GradedTestCase):
     np.random.seed(seed * 13 // 7)
 
     # Load training data & vocabulary
-    train_data_src = submission.read_corpus('./sanity_check_en_es_data/train_sanity_check.es', 'src')
-    train_data_tgt = submission.read_corpus('./sanity_check_en_es_data/train_sanity_check.en', 'tgt')
+    train_data_src = sanity_read_corpus('./sanity_check_en_es_data/train_sanity_check.es', 'src')
+    train_data_tgt = sanity_read_corpus('./sanity_check_en_es_data/train_sanity_check.en', 'tgt')
     train_data = list(zip(train_data_src, train_data_tgt))
 
     for src_sents, tgt_sents in submission.batch_iter(train_data, batch_size=BATCH_SIZE, shuffle=True):
