@@ -7,6 +7,8 @@ import traceback
 
 # Import student submission
 import submission
+import sacrebleu
+import nltk
 
 import sys
 import torch
@@ -50,6 +52,22 @@ def reinitialize_layers(model):
 
     with torch.no_grad():
         model.apply(init_weights)
+
+def sanity_read_corpus(file_path, source):
+    """ Read file, where each sentence is dilineated by a `\n`.
+    @param file_path (str): path to file containing corpus
+    @param source (str): "tgt" or "src" indicating whether text
+        is of the source language or target language
+    """
+    data = []
+    for line in open(file_path):
+        sent = nltk.word_tokenize(line)
+        # only append <s> and </s> to the target sentence
+        if source == 'tgt':
+            sent = ['<s>'] + sent + ['</s>']
+        data.append(sent)
+
+    return data
 
 class DummyVocab():
   def __init__(self):
@@ -154,15 +172,27 @@ def bleu(args: Dict[str, str]):
     @param args (Dict): args for file path details
     """
 
-    test_data_out = submission.read_corpus(args['TEST_OUTPUT_FILE'], source='tgt')
-    test_data_gold = submission.read_corpus(args['TEST_GOLD_FILE'], source='tgt')
-    min_len = min(len(test_data_out), len(test_data_gold))
+    # test_data_out = submission.read_corpus(args['TEST_OUTPUT_FILE'], source='tgt')
+    # test_data_gold = submission.read_corpus(args['TEST_GOLD_FILE'], source='tgt')
+    # min_len = min(len(test_data_out), len(test_data_gold))
 
-    bleu_score = corpus_bleu([[ref] for ref in test_data_gold[:min_len]],
-                             [hyp for hyp in test_data_out[:min_len]])
-    print('Corpus BLEU: {}'.format(bleu_score * 100), file=sys.stderr)
+    # bleu_score = corpus_bleu([[ref] for ref in test_data_gold[:min_len]],
+    #                          [hyp for hyp in test_data_out[:min_len]])
+    # print('Corpus BLEU: {}'.format(bleu_score * 100), file=sys.stderr)
 
-    return bleu_score * 100
+    f = open(args['TEST_OUTPUT_FILE'], "r", encoding='utf8') #change path to submission
+    hyps = []
+    for sent in f:
+      hyps.append(sent[:-1])     # gets rid of the end \n characters
+    f.close()
+
+    f = open(args['TEST_GOLD_FILE'], "r", encoding='utf8') #change to our local path
+    refs = []
+    for sent in f:
+      refs.append(sent[:-1])
+    f.close()
+    bleu_score = sacrebleu.corpus_bleu(hyps, [refs])
+    return bleu_score.score
 
 #########
 # TESTS #
@@ -326,8 +356,8 @@ class Test_1d(GradedTestCase):
     np.random.seed(seed * 13 // 7)
 
     # Load training data & vocabulary
-    train_data_src = submission.read_corpus('./sanity_check_en_es_data/train_sanity_check.es', 'src')
-    train_data_tgt = submission.read_corpus('./sanity_check_en_es_data/train_sanity_check.en', 'tgt')
+    train_data_src = sanity_read_corpus('./sanity_check_en_es_data/train_sanity_check.es', 'src')
+    train_data_tgt = sanity_read_corpus('./sanity_check_en_es_data/train_sanity_check.en', 'tgt')
     train_data = list(zip(train_data_src, train_data_tgt))
 
     for src_sents, tgt_sents in submission.batch_iter(train_data, batch_size=BATCH_SIZE, shuffle=True):
@@ -562,8 +592,8 @@ class Test_1f(GradedTestCase):
     np.random.seed(seed * 13 // 7)
 
     # Load training data & vocabulary
-    train_data_src = submission.read_corpus('./sanity_check_en_es_data/train_sanity_check.es', 'src')
-    train_data_tgt = submission.read_corpus('./sanity_check_en_es_data/train_sanity_check.en', 'tgt')
+    train_data_src = sanity_read_corpus('./sanity_check_en_es_data/train_sanity_check.es', 'src')
+    train_data_tgt = sanity_read_corpus('./sanity_check_en_es_data/train_sanity_check.en', 'tgt')
     train_data = list(zip(train_data_src, train_data_tgt))
 
     for src_sents, tgt_sents in submission.batch_iter(train_data, batch_size=BATCH_SIZE, shuffle=True):
@@ -637,15 +667,15 @@ class Test_1g(GradedTestCase):
     def test_0(self):
         """1g-0-hidden: BLEU score check"""
         args = {
-            'TEST_OUTPUT_FILE': './submission/gradescope_test_outputs_(soln).txt',
-            'TEST_GOLD_FILE': './en_es_data/gradescope_test_(soln).txt'
+            'TEST_OUTPUT_FILE': './submission/test_outputs.txt',
+            'TEST_GOLD_FILE': './chr_en_data/test.en'
         }
         self.assertTrue(os.path.exists(args['TEST_OUTPUT_FILE']),
                         f'Output test file ({args["TEST_OUTPUT_FILE"]}) does not exist. To generate this file, follow these steps:\n'
-                        '1. Generate vocab.py (run.sh vocab)\n'
-                        '2. Generate and train a model (run.sh train)\n'
-                        '3. Generate model outputs on the autograder test set (python envaluation_output.py)')
-        self.assertGreater(bleu(args), 21, "Must achieve a BLEU score greater than 21.")
+                        '1. Generate vocab.py (sh run.sh vocab)\n'
+                        '2. Generate and train a model (sh run.sh train)\n'
+                        '3. Test trained model (takes 30min - 1 hour to train) (sh run.sh test)')
+        self.assertGreater(bleu(args), 10, "Must achieve a BLEU score greater than 10.")
 
 def getTestCaseForTestID(test_id):
   question, part, _ = test_id.split('-')

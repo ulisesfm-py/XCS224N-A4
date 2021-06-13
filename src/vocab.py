@@ -13,21 +13,20 @@ Options:
     --freq-cutoff=<int>        frequency cutoff [default: 2]
 """
 
-import json
 from collections import Counter
-from itertools import chain
-from typing import List
-
-import torch
 from docopt import docopt
+from itertools import chain
+import json
+import torch
+from typing import List
 from submission import read_corpus, pad_sents
+import sentencepiece as spm
 
 
 class VocabEntry(object):
     """ Vocabulary Entry, i.e. structure containing either
     src or tgt language terms.
     """
-
     def __init__(self, word2id=None):
         """ Init VocabEntry Instance.
         @param word2id (dict): dictionary mapping words 2 indices
@@ -36,10 +35,10 @@ class VocabEntry(object):
             self.word2id = word2id
         else:
             self.word2id = dict()
-            self.word2id['<pad>'] = 0  # Pad Token
-            self.word2id['<s>'] = 1  # Start Token
-            self.word2id['</s>'] = 2  # End Token
-            self.word2id['<unk>'] = 3  # Unknown Token
+            self.word2id['<pad>'] = 0   # Pad Token
+            self.word2id['<s>'] = 1 # Start Token
+            self.word2id['</s>'] = 2    # End Token
+            self.word2id['<unk>'] = 3   # Unknown Token
         self.unk_id = self.word2id['<unk>']
         self.id2word = {v: k for k, v in self.word2id.items()}
 
@@ -143,12 +142,18 @@ class VocabEntry(object):
         for word in top_k_words:
             vocab_entry.add(word)
         return vocab_entry
+    
+    @staticmethod
+    def from_subword_list(subword_list):
+        vocab_entry = VocabEntry()
+        for subword in subword_list:
+            vocab_entry.add(subword)
+        return vocab_entry
 
 
 class Vocab(object):
     """ Vocab encapsulating src and target langauges.
     """
-
     def __init__(self, src_vocab: VocabEntry, tgt_vocab: VocabEntry):
         """ Init Vocab.
         @param src_vocab (VocabEntry): VocabEntry for source language
@@ -158,20 +163,20 @@ class Vocab(object):
         self.tgt = tgt_vocab
 
     @staticmethod
-    def build(src_sents, tgt_sents, vocab_size, freq_cutoff) -> 'Vocab':
+    def build(src_sents, tgt_sents) -> 'Vocab':
         """ Build Vocabulary.
-        @param src_sents (list[str]): Source sentences provided by read_corpus() function
-        @param tgt_sents (list[str]): Target sentences provided by read_corpus() function
-        @param vocab_size (int): Size of vocabulary for both source and target languages
-        @param freq_cutoff (int): if word occurs n < freq_cutoff times, drop the word.
+        @param src_sents (list[str]): Source subwords provided by SentencePiece
+        @param tgt_sents (list[str]): Target subwords provided by SentencePiece
         """
-        assert len(src_sents) == len(tgt_sents)
+        # assert len(src_sents) == len(tgt_sents)
 
         print('initialize source vocabulary ..')
-        src = VocabEntry.from_corpus(src_sents, vocab_size, freq_cutoff)
+        # src = VocabEntry.from_corpus(src_sents, vocab_size, freq_cutoff)
+        src = VocabEntry.from_subword_list(src_sents)
 
         print('initialize target vocabulary ..')
-        tgt = VocabEntry.from_corpus(tgt_sents, vocab_size, freq_cutoff)
+        # tgt = VocabEntry.from_corpus(tgt_sents, vocab_size, freq_cutoff)
+        tgt = VocabEntry.from_subword_list(tgt_sents)
 
         return Vocab(src, tgt)
 
@@ -179,7 +184,8 @@ class Vocab(object):
         """ Save Vocab to file as JSON dump.
         @param file_path (str): file path to vocab file
         """
-        json.dump(dict(src_word2id=self.src.word2id, tgt_word2id=self.tgt.word2id), open(file_path, 'w'), indent=2)
+        with open(file_path, 'w') as f:
+            json.dump(dict(src_word2id=self.src.word2id, tgt_word2id=self.tgt.word2id), f, indent=2)
 
     @staticmethod
     def load(file_path):
@@ -200,17 +206,36 @@ class Vocab(object):
         return 'Vocab(source %d words, target %d words)' % (len(self.src), len(self.tgt))
 
 
+def get_vocab_list(file_path, source, vocab_size):
+    """ Use SentencePiece to tokenize and acquire list of unique subwords.
+    @param file_path (str): file path to corpus
+    @param source (str): tgt or src
+    @param vocab_size: desired vocabulary size
+    """ 
+    spm.SentencePieceTrainer.train(input=file_path, model_prefix=source, vocab_size=vocab_size)     # train the spm model
+    sp = spm.SentencePieceProcessor()   # create an instance; this saves .model and .vocab files 
+    sp.load('{}.model'.format(source))  # loads tgt.model or src.model
+    sp_list = [sp.id_to_piece(piece_id) for piece_id in range(sp.get_piece_size())] # this is the list of subwords
+    return sp_list 
+
+
+
 if __name__ == '__main__':
     args = docopt(__doc__)
 
     print('read in source sentences: %s' % args['--train-src'])
     print('read in target sentences: %s' % args['--train-tgt'])
 
-    src_sents = read_corpus(args['--train-src'], source='src')
-    tgt_sents = read_corpus(args['--train-tgt'], source='tgt')
+    src_sents = get_vocab_list(args['--train-src'], source='src', vocab_size=21000)          # EDIT: NEW VOCAB SIZE
+    tgt_sents = get_vocab_list(args['--train-tgt'], source='tgt', vocab_size=8000)
+    vocab = Vocab.build(src_sents, tgt_sents)
+    print('generated vocabulary, source %d words, target %d words' % (len(src_sents), len(tgt_sents)))
 
-    vocab = Vocab.build(src_sents, tgt_sents, int(args['--size']), int(args['--freq-cutoff']))
-    print('generated vocabulary, source %d words, target %d words' % (len(vocab.src), len(vocab.tgt)))
+    # src_sents = read_corpus(args['--train-src'], source='src')
+    # tgt_sents = read_corpus(args['--train-tgt'], source='tgt')
+
+    # vocab = Vocab.build(src_sents, tgt_sents, int(args['--size']), int(args['--freq-cutoff']))
+    # print('generated vocabulary, source %d words, target %d words' % (len(vocab.src), len(vocab.tgt)))
 
     vocab.save(args['VOCAB_FILE'])
     print('vocabulary saved to %s' % args['VOCAB_FILE'])

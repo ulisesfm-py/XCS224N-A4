@@ -2,7 +2,8 @@ import os
 from typing import Dict
 
 import torch
-from submission import NMT, read_corpus
+from submission.nmt_model import NMT
+from submission.utils import read_corpus
 from run import beam_search
 
 def check_dir_exists(directory_path):
@@ -22,7 +23,7 @@ def decode(args: Dict[str, str]):
     @param args (Dict): args from cmd line
     """
 
-    test_data_src = read_corpus(args['SOURCE_FILE'], source='src')
+    test_data_src = read_corpus(args['SOURCE_FILE'], source='src', vocab_size=3000)
     model = NMT.load(args['MODEL_PATH'])
 
     if args['CUDA']:
@@ -35,18 +36,18 @@ def decode(args: Dict[str, str]):
     with open(args['OUTPUT_FILE'], 'w') as f:
         for src_sent, hyps in zip(test_data_src, hypotheses):
             top_hyp = hyps[0]
-            hyp_sent = ' '.join(top_hyp.value)
+            hyp_sent = ''.join(top_hyp.value).replace('▁', ' ')
             f.write(hyp_sent + '\n')
 
 
 def main():
     args = {
-        'SOURCE_FILE': './en_es_data/grader.es',
+        'SOURCE_FILE': './chr_en_data/grader.es',
         'OUTPUT_FILE': './submission/gradescope_test_outputs_(soln).txt',
         'MODEL_PATH': './model_(soln).bin',
         'CUDA': False,
         'MAX_DECODING_TIME_STEP': 70,
-        'BEAM_SIZE': 5
+        'BEAM_SIZE': 10
     }
     check_dir_exists('./outputs/')
     decode(args)
