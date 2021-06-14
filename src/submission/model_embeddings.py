@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 import torch.nn as nn
 
-
-class ModelEmbeddings(nn.Module):
+class ModelEmbeddings(nn.Module): 
     """
     Class that converts input words to their embeddings.
     """
-
     def __init__(self, embed_size, vocab):
         """
         Init the Embedding layers.
@@ -46,3 +43,5 @@ class ModelEmbeddings(nn.Module):
         ###         https://pytorch.org/docs/stable/nn.html#torch.nn.Embedding
         ### START CODE HERE (~2 Lines)
         ### END CODE HERE
+
+

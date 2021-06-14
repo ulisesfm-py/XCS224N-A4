@@ -32,7 +32,7 @@ front pages of this assignment for instructions to run the autograder.
 
 {\em {\bf Note:}} For Question 1, reference the Python file |nmt_model.py| in your Assignment 4 coding files folder. 
 
-The |generate_sent_masks()| function in |nmt_model.py| produces a tensor called |enc_masks|. It has a shape (batch size, max source sentence length) and contains 1s in positions corresponding to |pad| tokens in the input, and 0s for non-|pad| tokens. Look at how the masks are used during the attention computation in the |step()| function (lines 231-320). Which among the following options do you think explains why the masks are required? {\em{\bf Select all that apply}}.
+The |generate_sent_masks()| function in |nmt_model.py| produces a tensor called |enc_masks|. It has a shape (batch size, max source sentence length) and contains 1s in positions corresponding to |pad| tokens in the input, and 0s for non-|pad| tokens. Look at how the masks are used during the attention computation in the |step()| function (lines 265-364). Which among the following options do you think explains why the masks are required? {\em{\bf Select all that apply}}.
 
 \begin{enumerate}[(a)]
 \item The masks are used to set the attention scores $e_{t,i}$ to $-\inf$ for all the positions $i$ that correspond to |pad| tokens in the source sentence. This means the encoder hidden states $h_i^\text{enc}$ that correspond to |pad| tokens have no effect on the attention output $a_t$.
@@ -45,16 +45,20 @@ The |generate_sent_masks()| function in |nmt_model.py| produces a tensor called 
 
 \item \points{quiz2}
 
-The example below contains a Spanish source sentence, reference English translation, NMT English translation, and error type. Choose the options that articulate a viable {\bf reason(s)} for the observed error that you might explore further. {\bf {\em Select all that apply.}}
+The example below contains a Cherokee source sentence, reference English translation, NMT English translation, and error type. Choose the options that articulate a viable {\bf reason(s)} for the observed error that you might explore further. {\bf {\em Select all that apply.}}
 
-{\bf Source Sentence:} Aqui otro de mis favoritos, ``La noche estrellada.''
-{\bf Reference Translation:} So another one of my favorites, ``The Starry Night.''
-{\bf NMT Translation:} Here's another favorite of my favorites, ``The Starry Night.''
-{\bf Error:} Repetition (`favorite of my favorites')
+{\bf Source Sentence:} {\em Yona utsesdo ustiyegv anitsilvsgi digvtanv uwoduisdei.}
+\newline
+{\bf Reference Translation:} {\em Fern had a crown of daises in her hair.}
+\newline
+{\bf NMT Translation:} {\em Fern had her hair with her hair.}
+\newline
+{\bf Error:} Repetition (`her hair')
+\newline
 
 \begin{enumerate}[(a)]
-\item A possible reason is that the model attended to {\bf {\em favoritos}} twice, thus producing both {\bf {\em favorite}} and {\bf {\em favorites}}.
-\item The reference translation says {\bf {\em another one}}, where the word {\bf {\em one}} has no direct counterpart in the source sentence. These types of cases can be difficult for ``sequence-to-sequence + attention'' systems to produce.
+\item A possible reason is that the model attended to {\bf {\em hair}} twice, thus producing both mentions of {\bf {\em hair}} in the sentence.
+\item The reference translation says {\bf {\em crown of daises}}, where the word {\bf {\em crown}} has no direct counterpart in the source sentence. These types of cases can be difficult for ``sequence-to-sequence + attention'' systems to produce.
 \item Repetition can be a problem with the decoding algorithm (e.g. greedy decoding / beam search).
 \end{enumerate}
 
@@ -66,10 +70,15 @@ The examples below contain a Spanish source sentence, reference English translat
 
 \begin{enumerate}[3a.]
 \item \points{quiz3a}
+
 {\bf Source Sentence:} {\em Un amigo me hizo eso -- Richard \underline{Bolingbroke}}
+\newline
 {\bf Reference Translation:} {\em A friend of mine did that -- Richard \underline{Bolingbroke}}
-{\bf NMT Translation:} {\em A friend of mine did that -- Richard <unk>}
-{\bf Error:} Out of vocabulary words (<unk>)
+\newline
+{\bf NMT Translation:} {\em A friend of mine did that -- Richard $\langle unk \rangle$}
+\newline 
+{\bf Error:} Out of vocabulary words ($\langle unk \rangle$)
+\newline
 
 \begin{enumerate}[(a)]
 \item We could add a neural copy/pointer mechanism to copy words from the source sentence (e.g., names).
@@ -81,10 +90,15 @@ The examples below contain a Spanish source sentence, reference English translat
 % ### END CODE HERE ###
 
 \item \points{quiz3b}
+
 {\bf Source Sentence:} {\em Eso es mas de 100,000 hectareas.}
+\newline
 {\bf Reference Translation:} {\em That's more than 250 thousand acres.}
+\newline
 {\bf NMT Translation:} {\em That's over 100,000 acres.}
+\newline
 {\bf Error:} Incorrect numeric conversions (100,000 hectares = 250,000 acres, not 100,000 acres)
+\newline
 \href{https://www.unitconverters.net/area/acres-to-hectare.htm}{Acre and Hectare numeric conversions.}
 
 \begin{enumerate}[(a)]
@@ -130,10 +144,15 @@ where $\lambda_1$, $\lambda_2$, $\lambda_3$, $\lambda_4$ are weights that sum to
 Consider this example:
 
 {\bf Source Sentence $s$:} el amor todo lo puede 
+\newline
 {\bf Reference Translation $r_1$:} love can always find a way
+\newline
 {\bf Reference Translation $r_2$:} love makes anything possible
+\newline
 {\bf NMT Translation $c_1$:} the love can always do
+\newline
 {\bf NMT Translation $c_2$:} love can make anything possible
+\newline
 
 Compute the BLEU scores for $c_1$ and $c_2$. Let $\lambda_i=0.5$ for $i \in {1 ,2}$ and $\lambda_i=0$ for $i \in {3 ,4}$ ({\bf this means we ignore 3-grams and 4-grams}, i.e., don't compute $p_3$ or $p_4$). Which of the two NMT translations (among $c_1$ and $c_2$) is considered the better translation according to the BLEU Score?
 
