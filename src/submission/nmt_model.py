@@ -46,7 +46,6 @@ class NMT(nn.Module):
         self.dropout = None
 
 
-        ### YOUR CODE HERE (~8 Lines)
         ### TODO - Initialize the following variables:
         ###     self.encoder (Bidirectional LSTM with bias)
         ###     self.decoder (LSTM Cell with bias)
@@ -66,8 +65,8 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/nn.html#torch.nn.Linear
         ###     Dropout Layer:
         ###         https://pytorch.org/docs/stable/nn.html#torch.nn.Dropout
-
-        ### END YOUR CODE
+        ### START CODE HERE (~8 Lines)
+        ### END CODE HERE
 
 
     def forward(self, source: List[List[str]], target: List[List[str]]) -> torch.Tensor:
@@ -124,7 +123,6 @@ class NMT(nn.Module):
         """
         enc_hiddens, dec_init_state = None, None
 
-        ### YOUR CODE HERE (~ 8 Lines)
         ### TODO:
         ###     1. Construct Tensor `X` of source sentences with shape (src_len, b, e) using the source model embeddings.
         ###         src_len = maximum source sentence length, b = batch size, e = embedding size. Note
@@ -155,8 +153,8 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/torch.html#torch.cat
         ###     Tensor Permute:
         ###         https://pytorch.org/docs/stable/tensors.html#torch.Tensor.permute
-
-        ### END YOUR CODE
+        ### START CODE HERE (~ 8 Lines)
+        ### END CODE HERE
 
         return enc_hiddens, dec_init_state
 
@@ -189,7 +187,6 @@ class NMT(nn.Module):
         # Initialize a list we will use to collect the combined output o_t on each step
         combined_outputs = []
 
-        ### YOUR CODE HERE (~9 Lines)
         ### TODO:
         ###     1. Apply the attention projection layer to `enc_hiddens` to obtain `enc_hiddens_proj`,
         ###         which should be shape (b, src_len, h),
@@ -224,8 +221,8 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/torch.html#torch.cat
         ###     Tensor Stacking:
         ###         https://pytorch.org/docs/stable/torch.html#torch.stack
-
-        ### END YOUR CODE
+        ### START CODE HERE (~9 Lines)
+        ### END CODE HERE
 
         return combined_outputs
 
@@ -259,7 +256,6 @@ class NMT(nn.Module):
 
         combined_output = None
 
-        ### YOUR CODE HERE (~3 Lines)
         ### TODO:
         ###     1. Apply the decoder to `Ybar_t` and `dec_state`to obtain the new dec_state.
         ###     2. Split dec_state into its two parts (dec_hidden, dec_cell)
@@ -282,13 +278,13 @@ class NMT(nn.Module):
         ###     Tensor Squeeze:
         ###         https://pytorch.org/docs/stable/torch.html#torch.squeeze
 
-        ### END YOUR CODE
+        ### START CODE HERE (~3 Lines)
+        ### END CODE HERE
 
         # Set e_t to -inf where enc_masks has 1
         if enc_masks is not None:
             e_t.data.masked_fill_(enc_masks.bool(), -float('inf'))
 
-        ### YOUR CODE HERE (~6 Lines)
         ### TODO:
         ###     1. Apply softmax to e_t to yield alpha_t
         ###     2. Use batched matrix multiplication between alpha_t and enc_hiddens to obtain the
@@ -315,8 +311,8 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/torch.html#torch.cat
         ###     Tanh:
         ###         https://pytorch.org/docs/stable/torch.html#torch.tanh
-
-        ### END YOUR CODE
+        ### START CODE HERE (~6 Lines)
+        ### END CODE HERE
 
         combined_output = O_t
         return dec_state, combined_output, e_t

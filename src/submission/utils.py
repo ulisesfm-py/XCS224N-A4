@@ -25,9 +25,8 @@ def pad_sents(sents, pad_token):
     """
     sents_padded = []
 
-    ### YOUR CODE HERE (~6 Lines)
-
-    ### END YOUR CODE
+    ### START CODE HERE (~6 Lines)
+    ### END CODE HERE
 
     return sents_padded
 
