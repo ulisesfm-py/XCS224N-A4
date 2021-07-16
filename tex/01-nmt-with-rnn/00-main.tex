@@ -113,9 +113,9 @@ For local development and testing, you can feel free to continue to using the sa
 \begin{lstlisting}
 (XCS224N)$ tmux new -s nmt
 \end{lstlisting}
-    Once your VM is configured and you are in a tmux session, reactivate your |XCS224N| environment and execute:
+    Once your VM is configured and you are in a tmux session, reactivate your |XCS224N| environment and execute. Note that it is a different conda env |XCS224N_GPU| based on |environment_gpy.yml|. Details in \href{https://docs.google.com/document/d/10J520Vnb1LnAMo0qgSYpG5cEEbomqQ371NIqg1IAv-4/edit?usp=sharing}{XCS224N Azure Guide}.
 \begin{lstlisting}
-$ conda activate XCS224N
+$ conda activate XCS224N_GPU
 (XCS224N)$ sh run.sh train
 \end{lstlisting}
     Once you know your code is running properly, you can detach from session and close your ssh connection to the server. To detach from the session, run:
