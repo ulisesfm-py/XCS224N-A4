@@ -76,11 +76,11 @@ $ conda update -n base conda
 $ conda env create --file environment.yml
 \end{lstlisting}
 
-Next, you need to install GPU-specific dependencies on your VM.  First, activate the |XCS224N| environment you just created.  Then install the dependencies:
+If you have a local GPU, then instead of using |XCS224N| conda environment, create a new environment that supports GPU, |XCS224N_GPU| by following line:
 
 \begin{lstlisting}
-$ conda activate XCS224N
-(XCS224N)$ conda install --file gpu_requirements.txt
+$ conda env create --file environment_gpu.yml
+$ conda activate XCS224N_GPU
 \end{lstlisting}
 
 For local development and testing, you can feel free to continue to using the same |XCS224N| environment you've used for all the assignments so far.
@@ -111,24 +111,24 @@ For local development and testing, you can feel free to continue to using the sa
     Once you have ensured that your code does not crash (i.e. let it run until \texttt{iter 10} or \texttt{iter 20}), power on your VM from the Azure Web Portal. Then read the \textit{Practical Guide for Using the VM} section of the \href{https://docs.google.com/document/d/10J520Vnb1LnAMo0qgSYpG5cEEbomqQ371NIqg1IAv-4/edit?usp=sharing}{XCS224N Azure Guide} for instructions on how to upload your code to the VM.
     Next, turn to the \textit{Managing Processes on a VM} section of the Practical Guide and follow the instructions to create a new tmux session. Concretely, run the following command to create tmux session called \texttt{nmt}.
 \begin{lstlisting}
-(XCS224N)$ tmux new -s nmt
+(XCS224N_GPU)$ tmux new -s nmt
 \end{lstlisting}
-    Once your VM is configured and you are in a tmux session, reactivate your |XCS224N| environment and execute:
+    Once your VM is configured and you are in a tmux session, reactivate your |XCS224N| environment and execute. Note that it is a different conda env |XCS224N_GPU| based on |environment_gpu.yml|. Details can be found from \href{https://docs.google.com/document/d/10J520Vnb1LnAMo0qgSYpG5cEEbomqQ371NIqg1IAv-4/edit?usp=sharing}{XCS224N Azure Guide}.
 \begin{lstlisting}
-$ conda activate XCS224N
-(XCS224N)$ sh run.sh train
+$ conda activate XCS224N_GPU
+(XCS224N_GPU)$ sh run.sh train
 \end{lstlisting}
     Once you know your code is running properly, you can detach from session and close your ssh connection to the server. To detach from the session, run:
 \begin{lstlisting}
-(XCS224N)$ tmux detach
+(XCS224N_GPU)$ tmux detach
 \end{lstlisting}
     You can return to your training model by ssh-ing back into the server and attaching to the tmux session by running:
 \begin{lstlisting}
-(XCS224N)$ tmux a -t nmt
+(XCS224N_GPU)$ tmux a -t nmt
 \end{lstlisting}
     \item \points{1g} Once your model is done training (\textbf{this should take about 30 minutes to 1 hour on the VM}), execute the following command to test the model:
 \begin{lstlisting}
-(XCS224N)$ sh run.sh test
+(XCS224N_GPU)$ sh run.sh test
 \end{lstlisting}
 
     After running this command, it should generate a file |src/submission/test_outputs.txt| needed for submission.
