@@ -16,6 +16,9 @@ nltk.download('punkt')
 def pad_sents(sents, pad_token):
     """ Pad list of sentences according to the longest sentence in the batch.
         The paddings should be at the end of each sentence.
+
+    Note: this function an be also used when the params are list[list[int]] and (int)
+
     @param sents (list[list[str]]): list of sentences, where each sentence
                                     is represented as a list of words
     @param pad_token (str): padding token
