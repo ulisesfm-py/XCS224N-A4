@@ -1,34 +1,35 @@
 \section{Quiz}
 
-This remainder of this homework is a series of multiple choice questions related to the word2vec algorithm.
+This remainder of this homework is a series of multiple choice questions related to the neural machine translation model. Please input your answers into the Gradescope Online Assessment |A4 Online Assessment|.
 
-{\bf How to submit:}  Even though these are not coding questions, you will submit your response to
-each question in the |src-quiz/submission.py| file.  This file will act as
-your 'bubble sheet' for multiple choice questions in this course.  A sample response
-might look like this:
+% {\bf How to submit:}  Even though these are not coding questions, you will submit your response to
+% each question in the |src-quiz/submission.py| file.  This file will act as
+% your 'bubble sheet' for multiple choice questions in this course.  A sample response
+% might look like this:
 
-\begin{center}
-\includegraphics[width=1\textwidth]{sample_question_empty.png}
-\end{center}
+% \begin{center}
+% \includegraphics[width=1\textwidth]{sample_question_empty.png}
+% \end{center}
 
-If you believe that |a| and |b| are the correct responses to this question, you
-will type |response = [`a', `b']| between the indicated lines like this:
+% If you believe that |a| and |b| are the correct responses to this question, you
+% will type |response = [`a', `b']| between the indicated lines like this:
 
-\begin{center}
-\includegraphics[width=1\textwidth]{sample_question_complete.png}
-\end{center}
+% \begin{center}
+% \includegraphics[width=1\textwidth]{sample_question_complete.png}
+% \end{center}
 
-{\bf How to verify your submission:}
-You can run the student version of the autograder locally like all coding
-problem sets.  In the case of this problem set, the helper tests will verify
-that your responses are within the set of possible choices for each question
-(e.g. the helper functions will flag if you forget to answer a question of if
-you respond with |[`a', `d']| when the choices are |[`a', `b', `c']|.)  See the
-front pages of this assignment for instructions to run the autograder.
-\clearpage
+% {\bf How to verify your submission:}
+% You can run the student version of the autograder locally like all coding
+% problem sets.  In the case of this problem set, the helper tests will verify
+% that your responses are within the set of possible choices for each question
+% (e.g. the helper functions will flag if you forget to answer a question of if
+% you respond with |[`a', `d']| when the choices are |[`a', `b', `c']|.)  See the
+% front pages of this assignment for instructions to run the autograder.
+% \clearpage
 
 \begin{enumerate}[1.]
-\item \points{quiz1}
+\item \points{1quiz}
+Please input answer to question 1 of the Gradescope online assessment |A4 Online Assessment|.
 
 {\em {\bf Note:}} For Question 1, reference the Python file |nmt_model.py| in your Assignment 4 coding files folder. 
 
@@ -43,7 +44,7 @@ The |generate_sent_masks()| function in |nmt_model.py| produces a tensor called 
 % ### START CODE HERE ###
 % ### END CODE HERE ###
 
-\item \points{quiz2}
+\item \points{2quiz} Please input answer to question 2 of the Gradescope online assessment |A4 Online Assessment|.
 
 The example below contains a Cherokee source sentence, reference English translation, NMT English translation, and error type. Choose the options that articulate a viable {\bf reason(s)} for the observed error that you might explore further. {\bf {\em Select all that apply.}}
 
@@ -66,10 +67,12 @@ The example below contains a Cherokee source sentence, reference English transla
 % ### END CODE HERE ###
 
 \item
+Please input answer to question 3.1 - 3.2 of the Gradescope online assessment |A4 Online Assessment|.
+
 The examples below contain a Spanish source sentence, reference English translation, NMT English translation, and error type. For each example, analyze the error and choose the options that represent reasonable approaches to try to fix the error observed. {\bf {\em Select all that apply.}}
 
 \begin{enumerate}[3a.]
-\item \points{quiz3a}
+\item \points{3aquiz} 
 
 {\bf Source Sentence:} {\em Un amigo me hizo eso -- Richard \underline{Bolingbroke}}
 \newline
@@ -89,7 +92,7 @@ The examples below contain a Spanish source sentence, reference English translat
 % ### START CODE HERE ###
 % ### END CODE HERE ###
 
-\item \points{quiz3b}
+\item \points{3bquiz}
 
 {\bf Source Sentence:} {\em Eso es mas de 100,000 hectareas.}
 \newline
@@ -113,6 +116,7 @@ The examples below contain a Spanish source sentence, reference English translat
 \end{enumerate}
 
 \item 
+Please input answer to question 4.1 - 4.3 of the Gradescope online assessment |A4 Online Assessment|.
 
 BLEU score is the most commonly used automatic evaluation metric for NMT systems. It is usually calculated across the entire test set, but here we will consider BLEU defined for a single example Suppose we have a source sentence $s$, a set of $k$ reference translations $r_1,....,r_k$ and a candidate translation $c$. To compute the BLEU score of $c$, we first compute the {\em modified n-gram precision} $p_n$ of $b_c$, for each of $n = 1, 2, 3, 4$:
 
@@ -140,7 +144,7 @@ BLEU = BP \times \exp \Big( \sum_{n=1}^4 \lambda_n \log p_n \Big)
 where $\lambda_1$, $\lambda_2$, $\lambda_3$, $\lambda_4$ are weights that sum to 1.
 
 \begin{enumerate}[4a.]
-\item \points{quiz4a}
+\item \points{4aquiz}
 Consider this example:
 
 {\bf Source Sentence $s$:} el amor todo lo puede 
@@ -165,7 +169,7 @@ Compute the BLEU scores for $c_1$ and $c_2$. Let $\lambda_i=0.5$ for $i \in {1 ,
 % ### START CODE HERE ###
 % ### END CODE HERE ###
 
-\item \points{quiz4b}
+\item \points{4bquiz}
 
 The hard drive was corrupted and we lost Reference Translation $r_2$. Recompute BLEU scores for $c_1$ and $c_2$, this time with respect to $r_1$ only. Which of the two NMT translations has a higher BLEU Score?
 
@@ -185,7 +189,7 @@ The hard drive was corrupted and we lost Reference Translation $r_2$. Recompute 
 \item If we have multiple reference translations, the BLEU metric will thus reward similarity to any of the several valid translations.
 \end{itemize}}
 
-\item \points{quiz4c}
+\item \points{4cquiz}
 
 Which of the below statements are true regarding the BLEU scoring metric?
 
@@ -201,10 +205,11 @@ Which of the below statements are true regarding the BLEU scoring metric?
 \end{enumerate}
 
 \item
+Please input answer to question 5.1 - 5.3 of the Gradescope online assessment |A4 Online Assessment|.
 
 In the lectures you learned about dot product attention, multiplicative attention, and additive attention. As a reminder, dot product attention is $e_{t,i} = s_t h_i^\intercal$, multiplicative attention is $e_{t,i} = s_t^\intercal W h_i$, and additive attention is $e_{t,i} = v^\intercal \tanh(W_1 h_i + W_2 s_t)$  ($v$, $W$, $W_1$ and $W_2$ are weights to be learned).
 \begin{enumerate}[5a.]
-\item \points{quiz5a}
+\item \points{5aquiz}
 
 Choose all options that accurately describe Dot Product attention:
 
@@ -217,7 +222,7 @@ Choose all options that accurately describe Dot Product attention:
 % ### START CODE HERE ###
 % ### END CODE HERE ###
 
-\item \points{quiz5b}
+\item \points{5bquiz}
 
 Choose all options that accurately describe Additive attention:
 
@@ -230,7 +235,7 @@ Choose all options that accurately describe Additive attention:
 % ### START CODE HERE ###
 % ### END CODE HERE ###
 
-\item \points{quiz5c}
+\item \points{5cquiz}
 
 Choose all options that accurately describe Multiplicative attention:
 
