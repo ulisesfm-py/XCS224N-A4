@@ -27,14 +27,5 @@
 
   "1g-0-hidden" : {"points":3, "question_id":"1g", "is_written":false, "is_coding":true, "is_online": false, "is_extra_credit":false, "no_label":false},
 
-  "1quiz" : {"points":2, "question_id":"1quiz", "is_written":false, "is_coding":false, "is_online": true, "is_extra_credit":false, "no_label":false},
-  "2quiz" : {"points":1, "question_id":"2quiz", "is_written":false, "is_coding":false, "is_online": true, "is_extra_credit":false, "no_label":false},
-  "3aquiz" : {"points":1, "question_id":"3aquiz", "is_written":false, "is_coding":false, "is_online": true, "is_extra_credit":false, "no_label":false},
-  "3bquiz" : {"points":1, "question_id":"3bquiz", "is_written":false, "is_coding":false, "is_online": true, "is_extra_credit":false, "no_label":false},
-  "4aquiz" : {"points":1, "question_id":"4aquiz", "is_written":false, "is_coding":false, "is_online": true, "is_extra_credit":false, "no_label":false},
-  "4bquiz" : {"points":1, "question_id":"4bquiz", "is_written":false, "is_coding":false, "is_online": true, "is_extra_credit":false, "no_label":false},
-  "4cquiz" : {"points":1, "question_id":"4cquiz", "is_written":false, "is_coding":false, "is_online": true, "is_extra_credit":false, "no_label":false},
-  "5aquiz" : {"points":1, "question_id":"5aquiz", "is_written":false, "is_coding":false, "is_online": true, "is_extra_credit":false, "no_label":false},
-  "5bquiz" : {"points":1, "question_id":"5bquiz", "is_written":false, "is_coding":false, "is_online": true, "is_extra_credit":false, "no_label":false},
-  "5cquiz" : {"points":1, "question_id":"5cquiz", "is_written":false, "is_coding":false, "is_online": true, "is_extra_credit":false, "no_label":false}
+  "quiz" : {"points":11, "question_id":"quiz", "is_written":false, "is_coding":false, "is_online": true, "is_extra_credit":false, "no_label":false}
 }
