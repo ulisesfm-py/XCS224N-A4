@@ -123,11 +123,11 @@ class VocabEntry(object):
         word_ids = self.words2indices(sents)
         sents_t = pad_sents(word_ids, self['<pad>'])
         sents_var = torch.tensor(sents_t, dtype=torch.long, device=device)
-	""" TODO: test and use this block instead to match the param type as docstring for pad_sents
-        sents_t = pad_sents(sents, '<pad>')
-        sents_tt = self.words2indices(sents_t)
-        sents_var = torch.tensor(sents_tt, dtype=torch.long, device=device)
-	"""
+        """ TODO: test and use this block instead to match the param type as docstring for pad_sents
+            sents_t = pad_sents(sents, '<pad>')
+            sents_tt = self.words2indices(sents_t)
+            sents_var = torch.tensor(sents_tt, dtype=torch.long, device=device)
+        """
         return torch.t(sents_var)
 
     @staticmethod

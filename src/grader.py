@@ -209,7 +209,7 @@ class Test_1a(GradedTestCase):
       x.split() for x in [
         'hi there',
         'hi there homie',
-        'how was your day today'
+        'how was your day today',
         'pretty good',
         'how about you',
         'solid',
