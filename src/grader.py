@@ -469,7 +469,7 @@ class Test_1e(GradedTestCase):
                         combined_outputs_target.numpy())), "combined_outputs is should be:\n {}, but is:\n{}".format(
         combined_outputs_target, combined_outputs_pred)
 
-  @graded()
+  @graded(is_hidden=True)
   def test_1(self):
     """1e-1-hidden: Combined Outputs Check"""
     # Set Seeds
