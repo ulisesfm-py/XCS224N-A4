@@ -9,7 +9,7 @@ Usage:
 
 Options:
     -h --help                               show this screen.
-    --cuda                                  use GPU
+    --gpu                                   use GPU
     --train-src=<file>                      train source file
     --train-tgt=<file>                      train target file
     --dev-src=<file>                        dev source file
@@ -148,7 +148,7 @@ def train(args: Dict):
     vocab_mask = torch.ones(len(vocab.tgt))
     vocab_mask[vocab.tgt['<pad>']] = 0
 
-    device = torch.device("cuda:0" if args['--cuda'] else "cpu")
+    device = setup_device(args['--gpu'])
     print('use device: %s' % device, file=sys.stderr)
 
     model = model.to(device)
@@ -284,9 +284,7 @@ def decode(args: Dict[str, str]):
 
     print("load model from {}".format(args['MODEL_PATH']), file=sys.stderr)
     model = NMT.load(args['MODEL_PATH'])
-
-    if args['--cuda']:
-        model = model.to(torch.device("cuda:0"))
+    model = model.to(setup_device(args['--gpu']))
 
     hypotheses = beam_search(model, test_data_src,
                             #  beam_size=int(args['--beam-size']),                      EDIT: BEAM SIZE USED TO BE 5
@@ -327,6 +325,19 @@ def beam_search(model: NMT, test_data_src: List[List[str]], beam_size: int, max_
 
     return hypotheses
 
+def setup_device(gpu:bool):
+    """ Setup the device used by PyTorch.
+    """
+    
+    device = torch.device("cpu")
+
+    if gpu:
+        if torch.cuda.is_available(): 
+            device = torch.device("cuda:0")
+        elif torch.backends.mps.is_available() and torch.backends.mps.is_built():
+            device = torch.device("mps")
+
+    return device
 
 def main():
     """ Main func.
@@ -339,8 +350,6 @@ def main():
     # seed the random number generators
     seed = int(args['--seed'])
     torch.manual_seed(seed)
-    if args['--cuda']:
-        torch.cuda.manual_seed(seed)
     np.random.seed(seed * 13 // 7)
 
     if args['train']:
