@@ -69,18 +69,18 @@ Now that we have described the model, let's try implementing it for Cherokee to 
 \subsection*{{\color{red} Setting up your Virtual Machine}}
 Follow the instructions in the \href{https://docs.google.com/document/d/10J520Vnb1LnAMo0qgSYpG5cEEbomqQ371NIqg1IAv-4/edit?usp=sharing}{XCS224N Azure Guide} in order to create your VM instance. Though you will need the GPU to train your model, we strongly advise that you first develop the code locally and ensure that it runs, before attempting to train it on your VM. GPU time is expensive and limited. It takes approximately \textbf{30 minutes to 1 hour} to train the NMT system. We don't want you to accidentally use all your GPU time for the assignment, debugging your model rather than training and evaluating it. Finally, \textbf{make sure that your VM is turned off whenever you are not using it.}
 
-In order to run the model code on your VM, please run the following command to create the proper virtual environment (You did this at the beginning of the course on your local computer):
+In order to run the model code on your workstation's CPU or if you have an Apple silicon GPU, please run the following command to create the proper virtual environment (You did this at the beginning of the course on your local computer):
 
 \begin{lstlisting}
 $ conda update -n base conda
 $ conda env create --file environment.yml
 \end{lstlisting}
 
-If you have a local GPU, then instead of using |XCS224N| conda environment, create a new environment that supports GPU, |XCS224N_GPU| by following line:
+If you have a local CUDA based GPU (Nvidia) or on your VM, then instead of using |XCS224N| conda environment, create a new environment that supports CUDA, |XCS224N_CUDA| by following line:
 
 \begin{lstlisting}
-$ conda env create --file environment_gpu.yml
-$ conda activate XCS224N_GPU
+$ conda env create --file environment_cuda.yml
+$ conda activate XCS224N_CUDA
 \end{lstlisting}
 
 For local development and testing, you can feel free to continue to using the same |XCS224N| environment you've used for all the assignments so far.
@@ -106,29 +106,29 @@ For local development and testing, you can feel free to continue to using the sa
 \end{lstlisting}
     As noted earlier, we recommend that you develop the code on your personal computer.  Confirm that you are running in the proper conda environment and then execute the following command to train the model on your local machine:
 \begin{lstlisting}
-(XCS224N)$ sh run.sh train_local
+(XCS224N)$ sh run.sh train_cpu
 \end{lstlisting}
     Once you have ensured that your code does not crash (i.e. let it run until \texttt{iter 10} or \texttt{iter 20}), power on your VM from the Azure Web Portal. Then read the \textit{Practical Guide for Using the VM} section of the \href{https://docs.google.com/document/d/10J520Vnb1LnAMo0qgSYpG5cEEbomqQ371NIqg1IAv-4/edit?usp=sharing}{XCS224N Azure Guide} for instructions on how to upload your code to the VM.
     Next, turn to the \textit{Managing Processes on a VM} section of the Practical Guide and follow the instructions to create a new tmux session. Concretely, run the following command to create tmux session called \texttt{nmt}.
 \begin{lstlisting}
-(XCS224N_GPU)$ tmux new -s nmt
+(XCS224N_CUDA)$ tmux new -s nmt
 \end{lstlisting}
-    Once your VM is configured and you are in a tmux session, reactivate your |XCS224N| environment and execute. Note that it is a different conda env |XCS224N_GPU| based on |environment_gpu.yml|. Details can be found from \href{https://docs.google.com/document/d/10J520Vnb1LnAMo0qgSYpG5cEEbomqQ371NIqg1IAv-4/edit?usp=sharing}{XCS224N Azure Guide}.
+    Once your VM is configured and you are in a tmux session, reactivate your |XCS224N| environment and execute. Note that it is a different conda env |XCS224N_CUDA| based on |environment_cuda.yml|. Details can be found from \href{https://docs.google.com/document/d/10J520Vnb1LnAMo0qgSYpG5cEEbomqQ371NIqg1IAv-4/edit?usp=sharing}{XCS224N Azure Guide}.
 \begin{lstlisting}
-$ conda activate XCS224N_GPU
-(XCS224N_GPU)$ sh run.sh train
+$ conda activate XCS224N_CUDA
+(XCS224N_CUDA)$ sh run.sh train_gpu
 \end{lstlisting}
     Once you know your code is running properly, you can detach from session and close your ssh connection to the server. To detach from the session, run:
 \begin{lstlisting}
-(XCS224N_GPU)$ tmux detach
+(XCS224N_CUDA)$ tmux detach
 \end{lstlisting}
     You can return to your training model by ssh-ing back into the server and attaching to the tmux session by running:
 \begin{lstlisting}
-(XCS224N_GPU)$ tmux a -t nmt
+(XCS224N_CUDA)$ tmux a -t nmt
 \end{lstlisting}
     \item \points{1g} Once your model is done training (\textbf{this should take about 30 minutes to 1 hour on the VM}), execute the following command to test the model:
 \begin{lstlisting}
-(XCS224N_GPU)$ sh run.sh test
+(XCS224N_CUDA)$ sh run.sh test_gpu
 \end{lstlisting}
 
     After running this command, it should generate a file |src/submission/test_outputs.txt| needed for submission.
