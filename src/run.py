@@ -296,7 +296,7 @@ def decode(args: Dict[str, str]):
         bleu_score = compute_corpus_level_bleu_score(test_data_tgt, top_hypotheses)
         print('Corpus BLEU: {}'.format(bleu_score), file=sys.stderr)
 
-    with open(args['OUTPUT_FILE'], 'w') as f:
+    with open(args['OUTPUT_FILE'], 'w', encoding='utf-8') as f:
         for src_sent, hyps in zip(test_data_src, hypotheses):
             top_hyp = hyps[0]
             hyp_sent = ''.join(top_hyp.value).replace('▁', ' ')

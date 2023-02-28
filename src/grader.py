@@ -673,8 +673,8 @@ class Test_1g(GradedTestCase):
         self.assertTrue(os.path.exists(args['TEST_OUTPUT_FILE']),
                         f'Output test file ({args["TEST_OUTPUT_FILE"]}) does not exist. To generate this file, follow these steps:\n'
                         '1. Generate vocab.py (sh run.sh vocab)\n'
-                        '2. Generate and train a model (sh run.sh train)\n'
-                        '3. Test trained model (takes 30min - 1 hour to train) (sh run.sh test)')
+                        '2. Generate and train a model (sh run.sh train_gpu)\n'
+                        '3. Test trained model (takes 30min - 1 hour to train) (sh run.sh test_gpu)')
         self.assertGreater(bleu(args), 10, "Must achieve a BLEU score greater than 10.")
 
 def getTestCaseForTestID(test_id):

@@ -384,9 +384,11 @@ class NMT(nn.Module):
             contiuating_hyp_scores = (hyp_scores.unsqueeze(1).expand_as(log_p_t) + log_p_t).view(-1)
             top_cand_hyp_scores, top_cand_hyp_pos = torch.topk(contiuating_hyp_scores, k=live_hyp_num)
 
-            prev_hyp_ids = top_cand_hyp_pos // len(self.vocab.tgt)
-            hyp_word_ids = top_cand_hyp_pos % len(self.vocab.tgt)
-
+            # Standard Python floor division (//) and modulo (%) operators are not supported on MPS. 
+            # Replace them using PyTorch functions
+            prev_hyp_ids = top_cand_hyp_pos.div(len(self.vocab.tgt), rounding_mode="floor") # top_cand_hyp_pos // len(self.vocab.tgt)
+            hyp_word_ids = top_cand_hyp_pos - top_cand_hyp_pos.div(len(self.vocab.tgt), rounding_mode="floor") * len(self.vocab.tgt) # top_cand_hyp_pos % len(self.vocab.tgt)
+            
             new_hypotheses = []
             live_hyp_ids = []
             new_hyp_scores = []
