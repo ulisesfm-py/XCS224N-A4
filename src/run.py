@@ -10,6 +10,9 @@ Usage:
 Options:
     -h --help                               show this screen.
     --gpu                                   use GPU
+    --compile                               compile the model
+    --no-compile                            do not compile the model
+    --backend=<str>                         backend to be used for compilation [default: inductor] {inductor,aot_eager,cudagraphs}
     --train-src=<file>                      train source file
     --train-tgt=<file>                      train target file
     --dev-src=<file>                        dev source file
@@ -136,7 +139,13 @@ def train(args: Dict):
                 dropout_rate=float(args['--dropout']),
                 vocab=vocab)
     
-
+    if(args["--compile"] == True):
+        try:
+            model = torch.compile(model, backend=args["--backend"])
+            print(f"NMT model compiled")
+        except Exception as err:
+            print(f"Model compile not supported: {err}")
+    
     model.train()
 
     uniform_init = float(args['--uniform-init'])
@@ -333,7 +342,7 @@ def setup_device(gpu:bool):
 
     if gpu:
         if torch.cuda.is_available(): 
-            device = torch.device("cuda:0")
+            device = torch.device("cuda")
         elif torch.backends.mps.is_available() and torch.backends.mps.is_built():
             device = torch.device("mps")
 
@@ -343,6 +352,7 @@ def main():
     """ Main func.
     """
     args = docopt(__doc__)
+    print(args)
 
     # Check pytorch version
     assert(torch.__version__ >= "1.0.0"), "Please update your installation of PyTorch. You have {} and you should have version 1.0.0".format(torch.__version__)
