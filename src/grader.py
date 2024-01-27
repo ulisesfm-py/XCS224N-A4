@@ -383,18 +383,21 @@ class Test_1d(GradedTestCase):
 
     # Test
     with torch.no_grad():
-        enc_hiddens_pred, dec_init_state_pred = model.encode(source_padded, source_lengths)
-    self.assertTrue(np.allclose(enc_hiddens_target.numpy(),
-                        enc_hiddens_pred.numpy())), "enc_hiddens is incorrect: it should be:\n {} but is:\n{}".format(
-        enc_hiddens_target, enc_hiddens_pred)
+      enc_hiddens_pred, dec_init_state_pred = model.encode(source_padded, source_lengths)
+    self.assertTrue(
+      np.allclose(enc_hiddens_target.numpy(), enc_hiddens_pred.numpy()),
+      f"enc_hiddens is incorrect: it should be:\n {enc_hiddens_target} but is:\n{enc_hiddens_pred}"
+    )
     print("enc_hiddens Sanity Checks Passed!")
-    self.assertTrue(np.allclose(dec_init_state_target[0].numpy(), dec_init_state_pred[
-        0].numpy())), "dec_init_state[0] is incorrect: it should be:\n {} but is:\n{}".format(dec_init_state_target[0],
-                                                                                              dec_init_state_pred[0])
+    self.assertTrue(
+      np.allclose(dec_init_state_target[0].numpy(), dec_init_state_pred[0].numpy()),
+      f"dec_init_state[0] is incorrect: it should be:\n {dec_init_state_target[0]} but is:\n{dec_init_state_pred[0]}"
+    )
     print("dec_init_state[0] Sanity Checks Passed!")
-    self.assertTrue(np.allclose(dec_init_state_target[1].numpy(), dec_init_state_pred[
-        1].numpy())), "dec_init_state[1] is incorrect: it should be:\n {} but is:\n{}".format(dec_init_state_target[1],
-                                                                                              dec_init_state_pred[1])
+    self.assertTrue(
+      np.allclose(dec_init_state_target[1].numpy(), dec_init_state_pred[1].numpy()),
+      f"dec_init_state[1] is incorrect: it should be:\n {dec_init_state_target[1]} but is:\n{dec_init_state_pred[1]}"
+    )
     print("dec_init_state[1] Sanity Checks Passed!")
 
   @graded(is_hidden=True)
