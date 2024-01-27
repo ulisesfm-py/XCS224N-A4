@@ -58,13 +58,13 @@ class NMT(nn.Module):
         ###
         ### Use the following docs to properly initialize these variables:
         ###     LSTM:
-        ###         https://pytorch.org/docs/stable/nn.html#torch.nn.LSTM
+        ###         https://pytorch.org/docs/stable/generated/torch.nn.LSTM.html#torch.nn.LSTM
         ###     LSTM Cell:
-        ###         https://pytorch.org/docs/stable/nn.html#torch.nn.LSTMCell
+        ###         https://pytorch.org/docs/stable/generated/torch.nn.LSTMCell.html#torch.nn.LSTMCell
         ###     Linear Layer:
-        ###         https://pytorch.org/docs/stable/nn.html#torch.nn.Linear
+        ###         https://pytorch.org/docs/stable/generated/torch.nn.Linear.html#torch.nn.Linear
         ###     Dropout Layer:
-        ###         https://pytorch.org/docs/stable/nn.html#torch.nn.Dropout
+        ###         https://pytorch.org/docs/stable/generated/torch.nn.Dropout.html#torch.nn.Dropout
         ### START CODE HERE (~8 Lines)
         ### END CODE HERE
 
@@ -146,13 +146,13 @@ class NMT(nn.Module):
         ###
         ### See the following docs, as you may need to use some of the following functions in your implementation:
         ###     Pack the padded sequence X before passing to the encoder:
-        ###         https://pytorch.org/docs/stable/nn.html#torch.nn.utils.rnn.pack_padded_sequence
+        ###         https://pytorch.org/docs/stable/generated/torch.nn.utils.rnn.pack_padded_sequence.html#torch-nn-utils-rnn-pack-padded-sequence
         ###     Pad the packed sequence, enc_hiddens, returned by the encoder:
-        ###         https://pytorch.org/docs/stable/nn.html#torch.nn.utils.rnn.pad_packed_sequence
+        ###         https://pytorch.org/docs/stable/generated/torch.nn.utils.rnn.pad_packed_sequence.html#torch-nn-utils-rnn-pad-packed-sequence
         ###     Tensor Concatenation:
-        ###         https://pytorch.org/docs/stable/torch.html#torch.cat
+        ###         https://pytorch.org/docs/stable/generated/torch.cat.html#torch-cat
         ###     Tensor Permute:
-        ###         https://pytorch.org/docs/stable/tensors.html#torch.Tensor.permute
+        ###         https://pytorch.org/docs/stable/generated/torch.permute.html#torch.permute
         ### START CODE HERE (~ 8 Lines)
         ### END CODE HERE
 
@@ -212,15 +212,15 @@ class NMT(nn.Module):
         ###
         ### You may find some of these functions useful:
         ###     Zeros Tensor:
-        ###         https://pytorch.org/docs/stable/torch.html#torch.zeros
+        ###         https://pytorch.org/docs/stable/generated/torch.zeros.html#torch-zeros
         ###     Tensor Splitting (iteration):
-        ###         https://pytorch.org/docs/stable/torch.html#torch.split
+        ###         https://pytorch.org/docs/stable/generated/torch.split.html#torch-split
         ###     Tensor Dimension Squeezing:
-        ###         https://pytorch.org/docs/stable/torch.html#torch.squeeze
+        ###         https://pytorch.org/docs/stable/generated/torch.squeeze.html#torch-squeeze
         ###     Tensor Concatenation:
-        ###         https://pytorch.org/docs/stable/torch.html#torch.cat
+        ###         https://pytorch.org/docs/stable/generated/torch.cat.html#torch-cat
         ###     Tensor Stacking:
-        ###         https://pytorch.org/docs/stable/torch.html#torch.stack
+        ###         https://pytorch.org/docs/stable/generated/torch.stack.html#torch-stack
         ### START CODE HERE (~9 Lines)
         ### END CODE HERE
 
@@ -272,11 +272,11 @@ class NMT(nn.Module):
         ###
         ### Use the following docs to implement this functionality:
         ###     Batch Multiplication:
-        ###        https://pytorch.org/docs/stable/torch.html#torch.bmm
+        ###         https://pytorch.org/docs/stable/generated/torch.bmm.html#torch-bmm
         ###     Tensor Unsqueeze:
-        ###         https://pytorch.org/docs/stable/torch.html#torch.unsqueeze
+        ###         https://pytorch.org/docs/stable/generated/torch.unsqueeze.html#torch-unsqueeze
         ###     Tensor Squeeze:
-        ###         https://pytorch.org/docs/stable/torch.html#torch.squeeze
+        ###         https://pytorch.org/docs/stable/generated/torch.squeeze.html#torch-squeeze
 
         ### START CODE HERE (~3 Lines)
         ### END CODE HERE
@@ -302,15 +302,15 @@ class NMT(nn.Module):
         ###
         ### Use the following docs to implement this functionality:
         ###     Softmax:
-        ###         https://pytorch.org/docs/stable/nn.html#torch.nn.functional.softmax
+        ###         https://pytorch.org/docs/stable/generated/torch.nn.functional.softmax.html#torch-nn-functional-softmax
         ###     Batch Multiplication:
-        ###        https://pytorch.org/docs/stable/torch.html#torch.bmm
+        ###         https://pytorch.org/docs/stable/generated/torch.bmm.html#torch-bmm
         ###     Tensor View:
-        ###         https://pytorch.org/docs/stable/tensors.html#torch.Tensor.view
+        ###         https://pytorch.org/docs/stable/generated/torch.Tensor.view.html#torch-tensor-view
         ###     Tensor Concatenation:
-        ###         https://pytorch.org/docs/stable/torch.html#torch.cat
+        ###         https://pytorch.org/docs/stable/generated/torch.cat.html#torch-cat
         ###     Tanh:
-        ###         https://pytorch.org/docs/stable/torch.html#torch.tanh
+        ###         https://pytorch.org/docs/stable/generated/torch.tanh.html#torch-tanh
         ### START CODE HERE (~6 Lines)
         ### END CODE HERE
 
