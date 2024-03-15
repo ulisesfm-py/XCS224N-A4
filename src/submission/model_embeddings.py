@@ -3,10 +3,12 @@
 
 import torch.nn as nn
 
-class ModelEmbeddings(nn.Module): 
+
+class ModelEmbeddings(nn.Module):
     """
     Class that converts input words to their embeddings.
     """
+
     def __init__(self, embed_size, vocab):
         """
         Init the Embedding layers.
@@ -25,23 +27,25 @@ class ModelEmbeddings(nn.Module):
         src_pad_token_idx = vocab.src['<pad>']
         tgt_pad_token_idx = vocab.tgt['<pad>']
 
-        ### TODO - Initialize the following variables:
-        ###     self.source (Embedding Layer for source language)
-        ###     self.target (Embedding Layer for target langauge)
+        # TODO - Initialize the following variables:
+        # self.source (Embedding Layer for source language)
+        # self.target (Embedding Layer for target langauge)
         ###
-        ### Note:
-        ###     1. `vocab` object contains two vocabularies:
-        ###            `vocab.src` for source
-        ###            `vocab.tgt` for target
-        ###     2. You can get the length of a specific vocabulary by running:
-        ###             `len(vocab.<specific_vocabulary>)`
-        ###     3. Remember to include the padding token for the specific vocabulary
-        ###        when creating your Embedding.
+        # Note:
+        # 1. `vocab` object contains two vocabularies:
+        # `vocab.src` for source
+        # `vocab.tgt` for target
+        # 2. You can get the length of a specific vocabulary by running:
+        # `len(vocab.<specific_vocabulary>)`
+        # 3. Remember to include the padding token for the specific vocabulary
+        # when creating your Embedding.
         ###
-        ### Use the following docs to properly initialize these variables:
-        ###     Embedding Layer:
-        ###         https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html#torch.nn.Embedding
-        ### START CODE HERE (~2 Lines)
-        ### END CODE HERE
-
-
+        # Use the following docs to properly initialize these variables:
+        # Embedding Layer:
+        # https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html#torch.nn.Embedding
+        # START CODE HERE (~2 Lines)
+        self.source = nn.Embedding(num_embeddings=len(
+            vocab.src), embedding_dim=embed_size, padding_idx=src_pad_token_idx)
+        self.target = nn.Embedding(num_embeddings=len(
+            vocab.tgt), embedding_dim=embed_size, padding_idx=tgt_pad_token_idx)
+        # END CODE HERE
